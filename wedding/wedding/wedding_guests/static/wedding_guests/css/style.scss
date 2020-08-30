@@ -1,0 +1,172 @@
+@import '_reset';
+
+$small-width: 660px;
+
+body {
+  font-family: 'Montserrat' !important;
+}
+
+#home-header {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+#home-header h1 {
+  font-size: 5em;
+  @media screen and (max-width: $small-width) {
+    font-size: 3em;
+  }
+}
+
+#home-header h3 {
+  font-size: 2em;
+  margin-top: -15px;
+}
+
+#home-container {
+  margin-top: 3rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  max-width: 700px;
+}
+
+.navbar-nav {
+  width: 100%;
+  justify-content: center;
+  @media screen and (min-width: $small-width) {
+    margin-top: 60px;
+  }
+}
+
+.navbar-nav .nav-link {
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+#login_form {
+  max-width: 400px;
+  text-align: left;
+  margin: 35px auto;
+}
+
+.container {
+  margin-bottom: 60px;
+}
+
+.helpimg {
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: help;
+  height: 1.2em;
+}
+
+.tab-content {
+  padding: 30px;
+}
+
+.tab-pane textarea {
+  width: 400px;
+  height: 80px;
+}
+
+.tab-pane label {
+  vertical-align: top;
+  margin-right: 10px;
+}
+
+.suggestions {
+  margin-left: 10px;
+}
+
+.img_column {
+  padding: 0 !important;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.img_column img {
+  width: 100%;
+}
+
+#middle-col {
+  display: flex;
+  flex-direction: column;
+}
+
+#nav-heading-content {
+  flex: 1 0 auto;
+}
+
+#countdown {
+  text-align: center;
+  flex-shrink: 0;
+  padding-bottom: 2em;
+  font-size: 1.5em;
+  @media screen and (max-width: $small-width) {
+    font-size: 1em;
+  }
+}
+
+.btn-border {
+  border-color: #ced4da !important;
+}
+
+#id_gifts {
+  list-style-type: none;
+}
+
+#rsvp-button {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.tab-pane textarea {
+  display: block;
+  max-width: 100%;
+}
+
+.embed-responsive {
+  margin-bottom: 30px;
+}
+
+.see-on-map {
+  display: block;
+}
+
+.wedding-row {
+  text-align: center;
+  margin-top: 35px;
+}
+
+.wedding-row .vertical-center {
+  position: relative;
+  display: inline-block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 1.5em;
+}
+
+.wedding-row img {
+  margin-bottom: 35px;
+  width: 100%;
+}
+
+.wedding-row:first-of-type img {
+  width: 70%;
+}
+
+#contact {
+  text-align: center;
+  padding-top: 30px;
+  & .row div {
+    margin-bottom: 30px;
+  }
+  & .row:last-child {
+    margin: 0 auto 0 auto;
+    width: 80%;
+  }
+}

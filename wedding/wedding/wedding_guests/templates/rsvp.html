@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+{% load i18n %}
+
+{% block content %}
+<div class="container">
+
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+
+{% for dict in formset.errors %}
+    {% for error in dict.values %}
+        {{ error }}
+    {% endfor %}
+{% endfor %}
+
+  <ul class="nav nav-tabs" role="tablist">
+  {% for guest_form in formset %}
+    <li role="presentation" class="nav-item">
+      <a href="#tab-{{ guest_form.initial.id }}" data-toggle="tab" aria-controls="tab-{{ guest_form.initial.id }}"
+         role="tab" data-toggle="tab" class="nav-link"
+         onclick="$('#rsvp_form').attr('action', '{% url 'rsvp_tab_active' forloop.counter0 %}')">
+        {{ guest_form.instance }}
+      </a>
+    </li>
+  {% endfor %}
+    <li role="presentation" class="ml-auto nav-item" id="gifts-nav-tab">
+      <a href="#tab-gifts" data-toggle="tab" aria-controls="tab-gifts" role="tab"
+         data-toggle="tab" class="nav-link"
+         onclick="$('#rsvp_form').attr('action', '{% url 'rsvp_tab_active' formset|length %}')">
+	 {% trans 'Wybór prezentów' %}
+      </a>
+    </li>
+  </ul>
+
+  <form id="rsvp_form" method="post" action="">
+  {% csrf_token %}
+  {{ formset.management_form }}
+    <div class="tab-content">
+    {% for guest_form in formset %}
+      <div class="tab-pane fade" id="tab-{{ guest_form.initial.id }}">
+      {{ guest_form.as_my_p }}
+      </div>
+    {% endfor %}
+      <div class="tab-pane fade" id="tab-gifts">
+	<p>{% blocktrans %}Poniżej zamieszczamy listę proponowanych prezentów. Jeśli macie inne pomysły albo nie ma już nic na liście, to nie krępujcie się sprawić nam coś innego.
+        Są tu także prezenty zarezerwowane już przez innych, co powinno zapobiec ich ewentualnemu zdublowaniu.
+	W sumie to nie musicie nam nic dawać. Największym prezentem dla nas jest Wasza obecność w tym wyjątkowym dla nas dniu :){% endblocktrans %}</p>
+	<h5>{% trans 'Lista proponowanych prezentów:' %}</h5>
+      {% for gift_id, gift_name in gift_form.gifts.field.choices %}
+        <label for="id-gift-{{ gift_id }}">
+          <input id="id-gift-{{ gift_id }}"
+            type="checkbox"
+            name="gifts"
+            value="{{ gift_id }}"
+            {% if gift_id in gift_form.gifts.field.initial %}
+              checked=""
+            {% endif %}
+          >
+          {{ gift_name }}
+          {% with gift_urls|get_item:gift_id as gift_url %}
+            {% if gift_url %}
+            <a href="{{ gift_url }}" target="_blank">(link)</a>
+            {% endif %}
+          {% endwith %}
+          {% if gift_id in gift_form.gifts.field.initial %}
+	  {% trans '- zarezerwowane przez Ciebie' %}
+          {% endif %}
+        </label>
+        <br>
+      {% endfor %}
+      <br>
+      {% if gift_form.taken_gifts %}
+      <h5>{% trans 'Prezenty zarezerwowane przez innych:' %}</h5>
+        <ul style="padding-left: 30px">
+        {% for gift in gift_form.taken_gifts %}
+          <li>
+            {{ gift.name }}
+            {% with gift_urls|get_item:gift.id as gift_url %}
+            {% if gift_url %}
+              <a href="{{ gift_url }}" target="_blank">(link)</a>
+            {% endif %}
+            {% endwith %}
+          </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+      </div>
+      <button id="rsvp-button" class="btn btn-default btn-border" type="submit">{% trans 'Zapisz zmiany' %}</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+$("#menu-rsvp").addClass("active");
+
+var activeTab = {{ active_tab }};
+$(".nav-tabs .nav-item a").eq(activeTab).addClass("active");
+$(".tab-content div").eq(activeTab).addClass("active");
+$('.tab-pane').eq(activeTab).addClass('show active');
+
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+$(".alert").fadeTo(4000, 500).slideUp(500, function(){
+    $(".alert").slideUp(500);
+});
+</script>
+{% endblock js %}
