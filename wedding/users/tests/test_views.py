@@ -5,11 +5,7 @@ from django.test import RequestFactory
 
 from wedding.users.models import User
 from wedding.users.tests.factories import UserFactory
-from wedding.users.views import (
-    UserRedirectView,
-    UserUpdateView,
-    user_detail_view,
-)
+from wedding.users.views import UserRedirectView, UserUpdateView, user_detail_view
 
 pytestmark = pytest.mark.django_db
 

@@ -1,11 +1,24 @@
 from django.contrib import admin
 
-from .models import Guest, Gift
+from .models import Gift, Guest
 
 
 class GuestAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'attending', 'attending_afters', 'wants_bus', 'is_vegetarian', 'comments')
-    list_filter = ('attending', 'wants_bus', 'is_vegetarian', 'attending_afters', 'eligible_for_afters')
+    list_display = (
+        "__str__",
+        "attending",
+        "attending_afters",
+        "wants_bus",
+        "is_vegetarian",
+        "comments",
+    )
+    list_filter = (
+        "attending",
+        "wants_bus",
+        "is_vegetarian",
+        "attending_afters",
+        "eligible_for_afters",
+    )
 
 
 admin.site.register(Guest, GuestAdmin)
