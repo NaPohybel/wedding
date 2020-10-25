@@ -2,47 +2,53 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
+from model_utils import Choices
 
 class Guest(models.Model):
-    YES, NO, MAYBE = 'Yes', 'No', 'Maybe'
     ATTENDING_STATUSES = (
-        (YES, _('Tak')),
-        (NO, _('Nie')),
-        (MAYBE, _('Nie określono'))
+        (1, "yes", _('Yes')),
+        (2, "no", _('No')),
+        (3, "maybe", _('Maybe'))
     )
-    username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.CharField(_('Imię'), max_length=30)
-    surname = models.CharField(_('Nazwisko'), max_length=50)
-    attending = models.CharField(
-        _('Będę na weselu'), max_length=len(MAYBE), default=MAYBE, choices=ATTENDING_STATUSES
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(_('Name'), max_length=30)
+    surname = models.CharField(_('Surname'), max_length=50)
+    attending = models.PositiveSmallIntegerField(
+        _('attending'), choices=ATTENDING_STATUSES,  default=ATTENDING_STATUSES.maybe,
     )
-    attending_afters = models.CharField(
-        _('Będę na poprawinach'), max_length=len(MAYBE), default=MAYBE, choices=ATTENDING_STATUSES,
-        help_text=_('Więcej informacji w zakładce Ślub i Wesele')
+    attending_afters = models.PositiveSmallIntegerField(
+        _('attening afters'), choices=ATTENDING_STATUSES,  default=ATTENDING_STATUSES.maybe,
     )
     wants_bus = models.BooleanField(
-        _('Chcę jechać busem'),
+        _('Wants bus'),
         default=False,
-        help_text=_('Więcej informacji w zakładce dojazd.')
     )
     is_vegetarian = models.BooleanField(
-        _('Preferuję dania wegetariańskie'),
+        _('is vegetarian'),
         default=False,
-        help_text=_('Informacja ta pomoże nam przy wyborze menu')
     )
-    comments = models.TextField(_('Dodatkowy komentarz'), blank=True, max_length=200)
-    is_accompanying_person = models.BooleanField(default=False)
-    eligible_for_afters = models.BooleanField(default=False)
+    comments = models.TextField(_('additional comment'), blank=True, max_length=200)
+    is_accompanying_person = models.BooleanField(_("is accompanying person"), default=False)
+    eligible_for_afters = models.BooleanField(_("eligible for afters"), default=False)
+
+    class Meta:
+        verbose_name=_("Guest")
+        verbose_name_plural=_("Guests")
+
 
     def __str__(self):
         return '{} {}'.format(self.name, self.surname)
 
 
 class Gift(models.Model):
-    name = models.CharField('Nazwa', max_length=100)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+    name = models.CharField(_('name'), max_length=100)
+    guest = models.ForeignKey(Guest, verbose_name=_("guest"), on_delete=models.CASCADE, blank=True, null=True)
     url = models.URLField(blank=True, null=True)
+
+    class Meta:
+        verbose_name=_("Gift")
+        verbose_name_plural=_("Gifts")
+
 
     def __str__(self):
         return self.name

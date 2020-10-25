@@ -7,9 +7,9 @@ from .models import Guest, Gift
 
 
 class LoginForm(forms.Form):
-    error_msg = _('Nieprawidłowe hasło lub login')
+    error_msg = _('Incorrect username or passowrd')
     username = forms.CharField(label='Login')
-    password = forms.CharField(label=_('Hasło'), widget=forms.PasswordInput)
+    password = forms.CharField(label=_('Passowrd'), widget=forms.PasswordInput)
 
 
 class GuestForm(forms.ModelForm):

@@ -51,7 +51,7 @@ class RSVPView(LoginRequiredMixin, View):
             chosen_gift_ids = gift_form.cleaned_data['gifts']
             Gift.objects.filter(user=request.user).update(user=None)
             Gift.objects.filter(id__in=chosen_gift_ids).update(user=request.user)
-            messages.success(request, _('Poprawna aktualizacja formularza'))
+            messages.success(request, _('Form correctly updated'))
         return redirect('rsvp_tab_active', active_tab)
 
 

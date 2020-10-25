@@ -14,3 +14,7 @@ class User(AbstractUser):
 
         """
         return reverse("users:detail", kwargs={"username": self.username})
+
+    class Meta:
+        verbose_name=_("User")
+        verbose_name_plural=_("Users")
