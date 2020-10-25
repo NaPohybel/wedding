@@ -275,3 +275,5 @@ wedding/media/
 .env
 .envs/*
 !.envs/.local/
+
+docker-compose.yml
