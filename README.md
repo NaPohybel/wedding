@@ -7,7 +7,7 @@ wedding page based on pmiara's one
 Create symlink to local docker-compose file:
 
 ```bash
-ln -s compose/local/docker-compose.yml ./docker-compose.yml
+ln -s docker/local/compose.yml ./docker-compose.yml
 ```
 
 ## Production
@@ -15,5 +15,5 @@ ln -s compose/local/docker-compose.yml ./docker-compose.yml
 Create symlink to local docker-compose file:
 
 ```bash
-ln -s compose/production/docker-compose.yml ./docker-compose.yml
+ln -s docker/production/compose.yml ./docker-compose.yml
 ```
